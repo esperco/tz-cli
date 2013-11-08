@@ -1,0 +1,2 @@
+{"fun":"local-to-utc","arg":{"tz":"America/New_York","local":"2014-02-03T04:05:06"}}
+{"fun":"utc-to-local","arg":{"tz":"America/New_York","utc":"2014-02-03T04:05:06"}}

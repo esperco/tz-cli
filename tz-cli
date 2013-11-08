@@ -1,0 +1,53 @@
+#! /usr/bin/env ruby
+
+# {"fun":"local-to-utc","arg":{"tz":"America/New_York","local":"2014-02-03T04:05:06"}}
+# {"fun":"utc-to-local","arg":{"tz":"America/New_York","utc":"2014-02-03T04:05:06"}}
+
+require 'json'
+require 'date'
+require 'tzinfo'
+
+def convert_local_to_utc(x)
+  tz = TZInfo::Timezone.get(x["tz"])
+  local = DateTime.parse(x["local"])
+  utc = tz.local_to_utc(local)
+  {
+    'utc' => utc.rfc3339(3)
+  }
+end
+
+def convert_utc_to_local(x)
+  tz_s = x["tz"]
+  tz = TZInfo::Timezone.get(tz_s)
+  utc = DateTime.parse(x["utc"])
+  local = tz.local_to_utc(utc)
+  {
+    'tz' => tz_s,
+    'local' => local.strftime('%FT%T')
+  }
+end
+
+def dispatch(x)
+  f = x["fun"]
+  case f
+  when "local-to-utc"
+    convert_local_to_utc(x["arg"])
+  when "utc-to-local"
+    convert_utc_to_local(x["arg"])
+  else
+    raise ('Invalid function ' + f)
+  end
+end
+
+def handle_line(line)
+  result = dispatch(JSON.parse(line))
+  puts JSON.generate(result)
+end
+
+def main()
+  ARGF.each_line do |line|
+    handle_line(line)
+  end
+end
+
+main()
