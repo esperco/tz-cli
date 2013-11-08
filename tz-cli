@@ -27,13 +27,21 @@ def convert_utc_to_local(x)
   }
 end
 
+def timezones
+  {
+    'timezones' => TZInfo::Timezone.all_identifiers
+  }
+end
+
 def dispatch(x)
-  f = x["fun"]
+  f = x['fun']
   case f
-  when "local-to-utc"
-    convert_local_to_utc(x["arg"])
-  when "utc-to-local"
-    convert_utc_to_local(x["arg"])
+  when 'local-to-utc'
+    convert_local_to_utc(x['arg'])
+  when 'utc-to-local'
+    convert_utc_to_local(x['arg'])
+  when 'timezones'
+    timezones
   else
     raise ('Invalid function ' + f)
   end
