@@ -41,7 +41,8 @@ end
 
 def handle_line(line)
   result = dispatch(JSON.parse(line))
-  puts JSON.generate(result)
+  $stdout.puts JSON.generate(result)
+  $stdout.flush
 end
 
 def main()
