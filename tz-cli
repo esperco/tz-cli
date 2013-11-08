@@ -20,7 +20,7 @@ def convert_utc_to_local(x)
   tz_s = x["tz"]
   tz = TZInfo::Timezone.get(tz_s)
   utc = DateTime.parse(x["utc"])
-  local = tz.local_to_utc(utc)
+  local = tz.utc_to_local(utc)
   {
     'tz' => tz_s,
     'local' => local.strftime('%FT%T')
