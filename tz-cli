@@ -55,7 +55,12 @@ end
 
 def main()
   ARGF.each_line do |line|
-    handle_line(line)
+    begin
+      handle_line(line)
+    rescue StandardError => e
+      $stderr.puts ("Error on the following line of input: " + line)
+      raise e
+    end
   end
 end
 
